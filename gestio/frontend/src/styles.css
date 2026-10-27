@@ -1,0 +1,50 @@
+:root {
+  --gestio-escuro: #14213d;
+  --gestio-claro: #f6f5f1;
+  --gestio-destaque: #f2a65a;
+}
+
+body {
+  background: var(--gestio-claro);
+}
+
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: var(--gestio-escuro);
+}
+
+.sidebar .nav-link {
+  color: #dce3ee;
+  border-radius: 8px;
+}
+
+.sidebar .nav-link:hover {
+  background: #2a3b5f;
+  color: #fff;
+}
+
+.sidebar .nav-link.active {
+  background: var(--gestio-destaque);
+  color: var(--gestio-escuro);
+  font-weight: 600;
+}
+
+.btn-gestio {
+  background: var(--gestio-destaque);
+  color: var(--gestio-escuro);
+  font-weight: 600;
+}
+
+.btn-gestio:hover {
+  background: #e6954a;
+  color: var(--gestio-escuro);
+}
+
+/* No celular, o menu lateral vira uma barra no topo */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+  }
+}
