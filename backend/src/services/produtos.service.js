@@ -49,6 +49,14 @@ export async function atualizar(empresaId, id, dados) {
 }
 
 export async function remover(empresaId, id) {
-  const removidos = await model.remover(empresaId, id);
-  if (!removidos) throw new HttpError(404, 'Produto não encontrado.');
+  try {
+    const removidos = await model.remover(empresaId, id);
+    if (!removidos) throw new HttpError(404, 'Produto não encontrado.');
+  } catch (err) {
+    // O banco bloqueia a exclusão quando o produto já aparece em alguma venda
+    if (err.code === 'ER_ROW_IS_REFERENCED_2') {
+      throw new HttpError(409, 'Este produto já tem vendas registradas e não pode ser excluído.');
+    }
+    throw err;
+  }
 }

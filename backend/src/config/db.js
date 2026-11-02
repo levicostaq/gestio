@@ -13,4 +13,23 @@ const pool = mysql.createPool({
   connectionLimit: 10,
 });
 
+// Executa várias operações como um bloco só (transação).
+// Se tudo der certo: COMMIT, as mudanças ficam salvas.
+// Se qualquer passo der erro: ROLLBACK, o banco volta exatamente como estava.
+export async function emTransacao(funcao) {
+  const conn = await pool.getConnection();
+  try {
+    await conn.beginTransaction();
+    const resultado = await funcao(conn);
+    await conn.commit();
+    return resultado;
+  } catch (err) {
+    await conn.rollback();
+    throw err;
+  } finally {
+    conn.release(); // devolve a conexão para o pool
+  }
+}
+
+
 export default pool;
