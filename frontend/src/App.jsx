@@ -3,6 +3,8 @@ import Layout from './components/Layout.jsx';
 import Painel from './pages/Painel.jsx';
 import ClientesLista from './pages/clientes/ClientesLista.jsx';
 import ClienteForm from './pages/clientes/ClienteForm.jsx';
+import ProdutosLista from './pages/produtos/ProdutosLista.jsx';
+import ProdutoForm from './pages/produtos/ProdutoForm.jsx';
 import EmConstrucao from './pages/EmConstrucao.jsx';
 
 export default function App() {
@@ -15,7 +17,9 @@ export default function App() {
         <Route path="/clientes/novo" element={<ClienteForm />} />
         <Route path="/clientes/:id" element={<ClienteForm />} />
 
-        <Route path="/produtos" element={<EmConstrucao titulo="Produtos" />} />
+        <Route path="/produtos" element={<ProdutosLista />} />
+        <Route path="/produtos/novo" element={<ProdutoForm />} />
+        <Route path="/produtos/:id" element={<ProdutoForm />} />
         <Route path="/vendas" element={<EmConstrucao titulo="Vendas" />} />
         <Route path="/financeiro" element={<EmConstrucao titulo="Financeiro" />} />
 
