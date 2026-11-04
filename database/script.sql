@@ -1,5 +1,6 @@
 -- Gestio: script de criação do banco
 -- Rodar no MySQL Workbench ou: mysql -u root -p < database/script.sql
+-- ATENÇÃO: este script APAGA e recria o banco inteiro.
 
 SET NAMES utf8mb4;
 
@@ -82,14 +83,36 @@ CREATE TABLE lancamentos (
   FOREIGN KEY (empresa_id) REFERENCES empresas(id)
 ) ENGINE=InnoDB;
 
--- Dados de exemplo para desenvolvimento
+-- ---------------------------------------------------------------
+-- Dados de exemplo
+-- Logins de teste (senha de todos: 123456):
+--   admin@gestio.com        administrador da Empresa Demo
+--   funcionario@gestio.com  funcionário da Empresa Demo
+--   salao@gestio.com        administrador de OUTRA empresa (teste multiempresa)
+-- ---------------------------------------------------------------
+
 INSERT INTO empresas (nome, cnpj, segmento) VALUES
-  ('Empresa Demo', '00.000.000/0001-00', 'Comércio');
+  ('Empresa Demo',      '00.000.000/0001-00', 'Comércio'),
+  ('Salão Bela Vista',  '11.111.111/0001-11', 'Beleza');
+
+INSERT INTO usuarios (empresa_id, nome, email, senha_hash, perfil) VALUES
+  (1, 'Administrador Demo', 'admin@gestio.com',       '$2a$10$P60l4Ls0n2A0h7D5gRYsu.TnDv9/MxYgXbszkJEGA9Vfa5LLMniMG', 'admin'),
+  (1, 'Funcionário Demo',   'funcionario@gestio.com', '$2a$10$P60l4Ls0n2A0h7D5gRYsu.TnDv9/MxYgXbszkJEGA9Vfa5LLMniMG', 'funcionario'),
+  (2, 'Dona do Salão',      'salao@gestio.com',       '$2a$10$P60l4Ls0n2A0h7D5gRYsu.TnDv9/MxYgXbszkJEGA9Vfa5LLMniMG', 'admin');
 
 INSERT INTO clientes (empresa_id, nome, cpf_cnpj, telefone, email) VALUES
   (1, 'Maria Silva',  '123.456.789-00', '(85) 99999-0001', 'maria@email.com'),
-  (1, 'João Pereira', '987.654.321-00', '(85) 99999-0002', 'joao@email.com');
+  (1, 'João Pereira', '987.654.321-00', '(85) 99999-0002', 'joao@email.com'),
+  (2, 'Ana Souza',    '555.444.333-22', '(85) 98888-0003', 'ana@email.com');
 
 INSERT INTO produtos (empresa_id, nome, preco, estoque, estoque_min) VALUES
   (1, 'Camiseta básica', 39.90, 25, 5),
-  (1, 'Boné',            29.90,  3, 5);
+  (1, 'Boné',            29.90,  3, 5),
+  (2, 'Corte de cabelo', 45.00, 99, 0);
+
+INSERT INTO lancamentos (empresa_id, tipo, descricao, valor, vencimento, status) VALUES
+  (1, 'saida',   'Aluguel da loja',             1200.00, '2026-11-10', 'pendente'),
+  (1, 'saida',   'Compra de mercadoria',         450.00, '2026-11-01', 'pago'),
+  (1, 'saida',   'Conta de luz',                 180.00, '2026-11-02', 'pendente'),
+  (1, 'entrada', 'Venda a prazo (Maria Silva)',  800.00, '2026-11-15', 'pendente'),
+  (1, 'entrada', 'Recebimento de cliente',       300.00, '2026-10-28', 'pago');

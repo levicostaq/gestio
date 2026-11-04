@@ -8,12 +8,13 @@ import db from '../config/db.js';
 
 export async function listar(empresaId, { inicio, fim, clienteId } = {}) {
   let sql = `
-    SELECT v.id, v.data, v.total, v.cliente_id, c.nome AS cliente_nome,
+    SELECT v.id, v.data, v.total, v.cliente_id, c.nome AS cliente_nome, u.nome AS usuario_nome,
            (SELECT COALESCE(SUM(i.quantidade), 0)
               FROM itens_venda i
              WHERE i.venda_id = v.id) AS quantidade_itens
       FROM vendas v
       LEFT JOIN clientes c ON c.id = v.cliente_id
+      LEFT JOIN usuarios u ON u.id = v.usuario_id
      WHERE v.empresa_id = ?`;
   const valores = [empresaId];
 
@@ -38,9 +39,10 @@ export async function listar(empresaId, { inicio, fim, clienteId } = {}) {
 
 export async function buscarPorId(empresaId, id) {
   const [vendas] = await db.query(
-    `SELECT v.id, v.data, v.total, v.cliente_id, c.nome AS cliente_nome
+    `SELECT v.id, v.data, v.total, v.cliente_id, c.nome AS cliente_nome, u.nome AS usuario_nome
        FROM vendas v
        LEFT JOIN clientes c ON c.id = v.cliente_id
+       LEFT JOIN usuarios u ON u.id = v.usuario_id
       WHERE v.empresa_id = ? AND v.id = ?`,
     [empresaId, id]
   );
@@ -81,10 +83,10 @@ export async function buscarProdutoParaVenda(conn, empresaId, produtoId) {
   return linhas[0];
 }
 
-export async function inserirVenda(conn, empresaId, clienteId, total) {
+export async function inserirVenda(conn, empresaId, clienteId, usuarioId, total) {
   const [resultado] = await conn.query(
-    'INSERT INTO vendas (empresa_id, cliente_id, total) VALUES (?, ?, ?)',
-    [empresaId, clienteId, total]
+    'INSERT INTO vendas (empresa_id, cliente_id, usuario_id, total) VALUES (?, ?, ?, ?)',
+    [empresaId, clienteId, usuarioId, total]
   );
   return resultado.insertId;
 }

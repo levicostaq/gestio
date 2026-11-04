@@ -41,6 +41,12 @@ body {
   color: var(--gestio-escuro);
 }
 
+/* Telas de login e cadastro */
+.tela-acesso {
+  min-height: 100vh;
+  background: var(--gestio-escuro);
+}
+
 /* No celular, o menu lateral vira uma barra no topo */
 @media (max-width: 768px) {
   .sidebar {
