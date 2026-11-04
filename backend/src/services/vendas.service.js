@@ -45,7 +45,7 @@ export async function buscarPorId(empresaId, id) {
   return venda;
 }
 
-export async function criar(empresaId, dados) {
+export async function criar(empresaId, usuarioId, dados) {
   const venda = validar(dados);
 
   if (venda.cliente_id && !(await model.clienteExiste(empresaId, venda.cliente_id))) {
@@ -73,7 +73,7 @@ export async function criar(empresaId, dados) {
     total = Math.round(total * 100) / 100; // evita 59.800000000001
 
     // 2. Cria a venda
-    const id = await model.inserirVenda(conn, empresaId, venda.cliente_id, total);
+    const id = await model.inserirVenda(conn, empresaId, venda.cliente_id, usuarioId, total);
 
     // 3. Cria os itens e dá baixa no estoque
     for (const item of itensComPreco) {

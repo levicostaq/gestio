@@ -8,7 +8,8 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   charset: 'utf8mb4',
-  decimalNumbers: true,
+  decimalNumbers: true, // DECIMAL do MySQL chega como número, não como texto
+  dateStrings: ['DATE'], // colunas DATE chegam como "2026-11-04", sem fuso horário
   waitForConnections: true,
   connectionLimit: 10,
 });
@@ -30,6 +31,5 @@ export async function emTransacao(funcao) {
     conn.release(); // devolve a conexão para o pool
   }
 }
-
 
 export default pool;
