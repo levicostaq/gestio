@@ -1,5 +1,6 @@
 -- Gestio: script de criação do banco
--- Rodar no MySQL Workbench ou: mysql -u root -p < database/script.sql
+-- Rodar no MySQL Workbench, ou: mysql -u root -p < database/script.sql
+-- Banco na nuvem (TiDB): cd backend && node --env-file=.env.nuvem scripts/criar-banco.js
 -- ATENÇÃO: este script APAGA e recria o banco inteiro.
 
 SET NAMES utf8mb4;
@@ -91,9 +92,9 @@ CREATE TABLE lancamentos (
 --   salao@gestio.com        administrador de OUTRA empresa (teste multiempresa)
 -- ---------------------------------------------------------------
 
-INSERT INTO empresas (nome, cnpj, segmento) VALUES
-  ('Empresa Demo',      '00.000.000/0001-00', 'Comércio'),
-  ('Salão Bela Vista',  '11.111.111/0001-11', 'Beleza');
+INSERT INTO empresas (id, nome, cnpj, segmento) VALUES
+  (1, 'Empresa Demo',      '00.000.000/0001-00', 'Comércio'),
+  (2, 'Salão Bela Vista',  '11.111.111/0001-11', 'Beleza');
 
 INSERT INTO usuarios (empresa_id, nome, email, senha_hash, perfil) VALUES
   (1, 'Administrador Demo', 'admin@gestio.com',       '$2a$10$P60l4Ls0n2A0h7D5gRYsu.TnDv9/MxYgXbszkJEGA9Vfa5LLMniMG', 'admin'),
