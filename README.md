@@ -4,7 +4,7 @@ Sistema web de gestão gratuito e universal para pequenos negócios: produtos e 
 
 Trabalho final da disciplina **Desenvolvimento Web** (Prof. Francisco Estevão Simão Pereira) · Ciência da Computação · UNIFOR · 2026.2
 
-**Acesse:** https://gestio-app.vercel.app (troque pelo link final do deploy)
+**Acesse:** https://gestio-delta.vercel.app
 
 | Login de teste | Senha | Perfil |
 |---|---|---|
